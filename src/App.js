@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
 import Phonebook from './components/Phonebook';
 import Filter from './components/Filter';
 import './App.css';
+import bin from "./bin.svg";
 
 class App extends Component {
   state = {
@@ -14,6 +14,19 @@ class App extends Component {
     ],
     filter: ""
   };
+  componentDidMount() {
+    if (localStorage.getItem("data")) {
+      this.setState({ contacts: JSON.parse(localStorage.getItem("data")) });
+    }
+    else {
+      const saveData = JSON.stringify(this.state.contacts);
+      localStorage.setItem("data", saveData);
+    }
+  }
+  componentDidUpdate() {
+    const newData = JSON.stringify(this.state.contacts);
+    localStorage.setItem("data", newData);
+  }
   render() {
     return (
       <>
@@ -23,7 +36,12 @@ class App extends Component {
         <ul>
           {this.state.contacts.map((item) => {
             if (item.name.toLocaleLowerCase().includes(this.state.filter)) {
-              return <li key={nanoid()} id={item.id}>{item.name}: {item.number}</li>;
+              return <li key={item.id} id={item.id}>{item.name}: {item.number}<img src={bin} alt='bin' onClick={() => {
+                const newList = this.state.contacts.filter((contact) => {
+                  return contact.id !== item.id;
+                })
+                this.setState({ contacts: newList });
+              }}/></li>;
             }   
             return false;
           })}

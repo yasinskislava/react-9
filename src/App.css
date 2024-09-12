@@ -42,3 +42,21 @@ ul {
   width: 200px;
   margin-bottom: 15px;
 }
+
+img {
+  position: relative;
+  top: 2px;
+  left: 10px;
+  width: 22px;
+  height: 22px;
+  opacity: 0;
+  transition: 250ms;
+  transform: scale(0);
+  cursor: pointer;
+}
+
+li:hover img {
+  opacity: 1;
+  transform: scale(1);
+}
+

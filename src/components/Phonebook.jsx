@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 
-export default function Phonebook({obj}) {
+export default function Phonebook({ obj }) {
+  const [[contacts, setContacts], [count, setCount]] = obj;
     return (
       <>
         <h2>Phonebook</h2>
@@ -8,7 +9,8 @@ export default function Phonebook({obj}) {
             e.preventDefault();
             let contactName = e.target.elements.contactName.value;
             let contactNumber = e.target.elements.contactNumber.value;
-            obj.setState({contacts: [...obj.state.contacts,{ name: contactName, number: contactNumber, id: nanoid() },],});
+            setContacts([...contacts, { name: contactName, number: contactNumber, id: nanoid() }]);
+            setCount(count + 1);
             e.target.elements.contactName.value = "";
             e.target.elements.contactNumber.value = "";
           }}>
